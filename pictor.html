@@ -1,0 +1,235 @@
+<head>
+  <title>Pictor</title>
+</head>
+
+<body>
+</body>
+
+  <!--  ================== layout ================================ -->
+
+<template name="layout">  
+<div class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+   
+    <a class="navbar-brand" href="{{pathFor 'home'}}">
+      
+      <strong>Pictor</strong></a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li class="active" id="GlobalPicGallery"><a href="{{pathFor 'userlist'}}">Глобальная выставка</a></li>
+      <li><a class="passive" href="buyPicture">Продать картину</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Купить картину<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Самые популярные</a></li>
+          <li><a href="#">Самые покупаемые</a></li>
+          <li><a href="#">Каталог авторов</a></li>
+          <li><a href="#">Лучшие художники</a></li>
+          <li><a href="#">Выберите город</a></li>
+          <li><a href="#">Помощь в оформлении документов</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="?">
+      </div>
+      <button type="submit" class="btn btn-default">Поиск</button>
+    </form>
+    
+    <ul class="nav navbar-nav navbar-right">
+     
+      {{loginButtons}}
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</div>
+<!-- Navbar-нижняя_граница -->
+    <div class="container"> 
+      
+      <div class="row">
+        <div class="col-md-2">
+          <ul class="nav nav-pills nav-stacked">
+                {{#if currentUser}}
+                  <li><a href="{{pathFor 'myPage'}}">Моя Страница </a></li>
+                   <li><a href="{{pathFor 'profile'}}">Редактировать </a></li>
+                  <li><a href="{{pathFor 'myMessages'}}">Мои Сообщения</a></li>
+                {{/if}}
+              <li><a href="{{pathFor 'guestbook'}}">Гостевая</a></li>
+              <li><a href="#">Промо-Акции</a></li>
+              <li><a href="#">Конкурсы</a></li>
+              <li><a href="#">Награждения</a></li>    
+            </ul>
+        </div>
+        <div class="col-md-8">
+          {{yield}}
+        </div>
+        <div class="col-md-2">
+          
+        </div>
+      </div>
+    </div>
+   <footer>
+        <hr>
+        <p>&copy; ООО Срост 2013</p>
+   </footer>
+</template>
+
+<!--  ================== /layout ================================ -->
+
+<!--  ================== Templates ================================ -->
+
+ <template name="home">  
+   <div class="container">
+      <h3>Открыта глобальная выставка картин!</h3>
+      <img src="http://t1.gstatic.com/images?q=tbn:ANd9GcTWoj5yiB6IleK_1BJJCkUFnfMCD2_bq4e3_tcQX5d2XxqZOfET">
+      <p>здесь будет выводится рэндом-картина</p>
+      <p><span class="glyphicon glyphicon-thumbs-up"></span> На этом ресурсе вы можете представить свои работы а так же найти себе картину по душе </p>
+      <p><a class="btn btn-default">Создать свою выставку &raquo;</a></p>
+      <div class="built-inForm">
+       {{> form}}
+      </div>
+             
+  </div>
+ </template>
+
+  <template name="guestbook">
+      {{> form}}
+      <hr style="hrDarkGray">
+      {{> list}}
+ </template>
+
+<template name="myPage">
+  <div>
+    </span> <h1><span class="glyphicon glyphicon-thumbs-up">  Содержание страницыавтора</h1>
+  </div>
+  <div>
+    
+  </div>
+</template>
+
+  <template name="form">
+    <div class="formPanel">
+      <form>
+        <h4>Напишите в гостевую:</h4>
+        <p><textarea class="inputForm" id="textArea"></textarea></p>
+             {{#if currentUser}}
+               {{else}}
+                 {{> signup}} 
+              {{/if}}
+        
+        <p><button class="btn btn-default" type="submit" form="data"  id="buttonNew">Отправить</button></p>      
+        <p><small></small>Это новая социальная сеть для художников и почитателей современного искусства</small></p>
+      </form>
+    </div>  
+  </template>
+    
+  <template name="signup">
+        <p><label for="firstName">Имя</label>
+          <input class="inputForm" id="firstName" name="firstName"></p>
+  </template>
+
+  <template name="list">
+  <div >
+   
+    {{#each posts}}
+    {{> post}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="post">
+  <div >
+    <h4>{{name}}</h4>
+    <p>{{ownPost}}</p> 
+  </div>
+</template>
+
+<template name="userlist">
+  <h5>Здесь будет выводиться рэндом-картинка</h5>
+  <img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQKm1L4Sghrou_Ae5sqzqAWLicRAIGGMIHZffhhk13WnnQBbROefQ">
+  <hr>
+  <h3>Здесь будет выводиться список художников</h3>
+  {{#if onclick}}
+    {{> privateMessagePanel}} 
+  {{/if}}
+   <div >
+    {{#each users}}
+    {{> user}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="user">
+  <div >
+    <h4 class="lighted">{{username}}</h4>
+  </div>
+</template>
+
+
+
+<template name="myMessages">
+  <h1>список сообщений</h1>
+ <div >
+    {{#each messages}}
+    {{> message}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="message">
+  <div >
+    <h4>{{username}}</h4>
+    <p>{{message}}</p> 
+  </div>
+</template>
+
+  <template name="privateMessagePanel">
+    <div class="formPanel">
+      <form>
+        <h4>Написать сообщение:</h4>
+        <p><textarea class="inputForm" id="messageArea"></textarea></p>
+             {{#if currentUser}}
+               {{else}}
+                 {{> signup}} 
+              {{/if}}
+        
+        <p><button type="submit" form="data"  id="buttonNew">Вот это я и думаю</button></p>
+      </form>
+    </div>  
+  </template>
+
+  <template name="buyPicture">
+   
+    {{#if currentUser}}
+      {{>addGallery}}
+      {{else}}
+        {{> signup}} 
+      {{/if}}
+    </div>  
+  </template>
+
+  <template name="addGallery">
+   <h1>добавить галерею</h1>
+    </div>  
+  </template>
+
+  <template name="profile">
+    <div class="formPanel">
+      <form>
+        <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя"></p>
+        <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия"></p>
+        <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара"></p>
+        <h4>Об авторе:</h4>
+        <p><textarea class="inputForm" id="aboutAuthor"></textarea></p>     
+        
+        <p><button class="btn btn-default" type="submit" form="data"  id="buttonSave">Сохранить</button></p>
+      </form>
+    </div> 
+  </template>
+
+  <!--  ================== /Templates ================================ -->
