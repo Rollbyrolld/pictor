@@ -5,7 +5,8 @@
       "bootstrap-3": {},
       "jquery-ui": {},
       "accounts-ui-bootstrap-3": {},
-      "iron-router": {}
+      "iron-router": {},
+      "loadpicker": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -27,6 +28,11 @@
         "git": "https://github.com/EventedMind/iron-router.git",
         "tag": "v0.5.4",
         "commit": "3e0e22ff85630b7503d0daa1538c6d90abb84020"
+      },
+      "loadpicker": {
+        "git": "https://github.com/guido4000/loadpicker.git",
+        "tag": "v1.0.0",
+        "commit": "9f8aa83427b21e2d6279db3f018900bf09560352"
       }
     }
   }

@@ -56,7 +56,7 @@
           <ul class="nav nav-pills nav-stacked">
                 {{#if currentUser}}
                   <li><a href="{{pathFor 'myPage'}}">Моя Страница </a></li>
-                   <li><a href="{{pathFor 'profile'}}">Редактировать </a></li>
+                   <li><a href="{{pathFor 'myGalleries'}}">Мои Выставки</a></li>
                   <li><a href="{{pathFor 'myMessages'}}">Мои Сообщения</a></li>
                 {{/if}}
               <li><a href="{{pathFor 'guestbook'}}">Гостевая</a></li>
@@ -79,23 +79,35 @@
    </footer>
 </template>
 
-<!--  ================== /layout ================================ -->
-
 <!--  ================== Templates ================================ -->
 
  <template name="home">  
    <div class="container">
       <h3>Открыта глобальная выставка картин!</h3>
-      <img src="http://t1.gstatic.com/images?q=tbn:ANd9GcTWoj5yiB6IleK_1BJJCkUFnfMCD2_bq4e3_tcQX5d2XxqZOfET">
+      {{> carousel}}
       <p>здесь будет выводится рэндом-картина</p>
       <p><span class="glyphicon glyphicon-thumbs-up"></span> На этом ресурсе вы можете представить свои работы а так же найти себе картину по душе </p>
-      <p><a class="btn btn-default">Создать свою выставку &raquo;</a></p>
+      <p><a class="btn btn-default" href="{{pathFor 'myGalleries'}}">Создать свою выставку &raquo;</a></p>
       <div class="built-inForm">
        {{> form}}
       </div>
              
   </div>
  </template>
+
+  <template name="textarea">
+    <div class="formPanel">
+      <form>
+        <p><textarea class="inputForm" id="textarea"></textarea></p>
+             {{#if currentUser}}
+               {{else}}
+                 {{> signup}} 
+              {{/if}}
+      </form>
+    </div>  
+  </template>
+
+ <!-- ==================== Гостевая ============================================= -->
 
   <template name="guestbook">
       {{> form}}
@@ -105,6 +117,7 @@
 
 <template name="myPage">
   <div>
+    <p><a class="btn btn-default btn-xs" href="{{pathFor 'profile'}}">Редактировать &raquo;</a></p>
     </span> <h1><span class="glyphicon glyphicon-thumbs-up">  Содержание страницыавтора</h1>
   </div>
   <div>
@@ -116,21 +129,12 @@
     <div class="formPanel">
       <form>
         <h4>Напишите в гостевую:</h4>
-        <p><textarea class="inputForm" id="textArea"></textarea></p>
-             {{#if currentUser}}
-               {{else}}
-                 {{> signup}} 
-              {{/if}}
+        {{> textarea}}
         
         <p><button class="btn btn-default" type="submit" form="data"  id="buttonNew">Отправить</button></p>      
         <p><small></small>Это новая социальная сеть для художников и почитателей современного искусства</small></p>
       </form>
     </div>  
-  </template>
-    
-  <template name="signup">
-        <p><label for="firstName">Имя</label>
-          <input class="inputForm" id="firstName" name="firstName"></p>
   </template>
 
   <template name="list">
@@ -148,15 +152,33 @@
     <p>{{ownPost}}</p> 
   </div>
 </template>
+    
+<template name="signup">
+  <p><label for="firstName">Имя</label>
+  <input  id="firstName" name="firstName"></p>
+</template>
+
+<!-- ==================== Пользователи ============================================= -->
+
+<template name="profile">
+  <div class="formPanel">
+    <form>
+      <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя"></p>
+      <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия"></p>
+      <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара"></p>
+      <h4>Об авторе:</h4>
+      <p><textarea class="inputForm" id="aboutAuthor"></textarea></p>     
+      
+      <p><button class="btn btn-default" type="submit" form="data"  id="buttonSave">Сохранить</button></p>
+    </form>
+  </div> 
+</template>
 
 <template name="userlist">
   <h5>Здесь будет выводиться рэндом-картинка</h5>
-  <img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQKm1L4Sghrou_Ae5sqzqAWLicRAIGGMIHZffhhk13WnnQBbROefQ">
+  {{> carousel}}
   <hr>
   <h3>Здесь будет выводиться список художников</h3>
-  {{#if onclick}}
-    {{> privateMessagePanel}} 
-  {{/if}}
    <div >
     {{#each users}}
     {{> user}}
@@ -166,14 +188,19 @@
 
 <template name="user">
   <div >
-    <h4 class="lighted">{{username}}</h4>
+    <h5>Аватар</h5>
+   <h4><a href="{{pathFor 'privateMessagePanel' _id=this._id}}"  class="username">{{username}}</a></h4>
   </div>
+  <p>Галереи художника</p>
+
 </template>
 
-
+<!-- ==================== Сообщениия ============================================= -->
 
 <template name="myMessages">
-  <h1>список сообщений</h1>
+  <h3>Мои сообщения</h3>
+  <p>выберите пользователя</p>
+  <hr>
  <div >
     {{#each messages}}
     {{> message}}
@@ -183,7 +210,7 @@
 
 <template name="message">
   <div >
-    <h4>{{username}}</h4>
+    <h4><a href="{{pathFor 'privateMessagePanel' _id=from_id}}"  class="username">{{username}}</a></h4>
     <p>{{message}}</p> 
   </div>
 </template>
@@ -191,16 +218,15 @@
   <template name="privateMessagePanel">
     <div class="formPanel">
       <form>
-        <h4>Написать сообщение:</h4>
-        <p><textarea class="inputForm" id="messageArea"></textarea></p>
-             {{#if currentUser}}
-               {{else}}
-                 {{> signup}} 
-              {{/if}}
-        
-        <p><button type="submit" form="data"  id="buttonNew">Вот это я и думаю</button></p>
+        <h4>Написать сообщение для {{username}}</h4>
+        {{> textarea}}
+        <p><button type="submit" form="data"  id="send">Отправить</button></p>
       </form>
+      <hr>
     </div>  
+    {{#each messages}}
+      {{> message}}
+    {{/each}} 
   </template>
 
   <template name="buyPicture">
@@ -213,23 +239,58 @@
     </div>  
   </template>
 
-  <template name="addGallery">
-   <h1>добавить галерею</h1>
+<!-- ==================== Картинки ============================================= -->
+  
+
+
+  <template name="myGalleries">
+    <div>
+    <h1>добавить персональную выставку</h1>
+    <form>
+       <p><input class="inputForm" id="imageCollection" name="imageCollection" placeholder="Название выставки"></p>
+       <p><input class="inputForm" id="image" name="image" placeholder="URL картинки">{{noimage}}</p>
+       <p><input class="inputForm" id="imageNote" name="imageNote" placeholder="Название картины"></p>
+     <button class="btn" type="submit" form="data"  id="imgSend">Отправить</button>
+    </form>
     </div>  
   </template>
 
-  <template name="profile">
-    <div class="formPanel">
-      <form>
-        <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя"></p>
-        <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия"></p>
-        <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара"></p>
-        <h4>Об авторе:</h4>
-        <p><textarea class="inputForm" id="aboutAuthor"></textarea></p>     
-        
-        <p><button class="btn btn-default" type="submit" form="data"  id="buttonSave">Сохранить</button></p>
-      </form>
-    </div> 
-  </template>
+<template name="carousel">
+  <div id="carousel-example-generic" class="carousel"  data-interval=false>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+
+      <div class="item active">
+        <img src="http://t1.gstatic.com/images?q=tbn:ANd9GcTWoj5yiB6IleK_1BJJCkUFnfMCD2_bq4e3_tcQX5d2XxqZOfET" alt="...">
+        <div class="carousel-caption">
+          <h3></h3>
+          <p></p>
+        </div>
+      </div> 
+
+      <div class="item">
+        <img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQKm1L4Sghrou_Ae5sqzqAWLicRAIGGMIHZffhhk13WnnQBbROefQ" alt="...">
+        <div class="carousel-caption">
+          <h3></h3>
+          <p></p>
+        </div>
+      </div> 
+
+           
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+      <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+      <span class="icon-next"></span>
+    </a>
+  </div>
+</template>
+
+
+
 
   <!--  ================== /Templates ================================ -->

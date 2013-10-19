@@ -3,6 +3,7 @@
     "bootstrap-3": {},
     "jquery-ui": {},
     "accounts-ui-bootstrap-3": {},
-    "iron-router": {}
+    "iron-router": {},
+    "loadpicker": {}
   }
 }
