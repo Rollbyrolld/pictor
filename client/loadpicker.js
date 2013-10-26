@@ -1,18 +1,25 @@
- Session.set("widgetSet", false);
-  var key = "Acip6PqCWSSGI9oJyv9u6z";
-  var cb = function () {
-    filepicker.makeDropPane($('#exampleDropPane')[0], {
-      dragEnter: function() {
-        $("#exampleDropPane").html("Drop to upload").css({
-          'backgroundColor': "#E0E0E0",
-          'border': "1px solid #000"
-        });
-      }
-    });
-  };
 
-  Template.home.created = function ( ) { 
+  Session.set("widgetSet", false);
+  var key = "Acip6PqCWSSGI9oJyv9u6z";
+
+  Template.myGalleries.rendered = function ( ) { 
     if (!Session.get("widgetSet")) {  
-      loadPicker(key, cb);
+      loadPicker(key);
     }
   };
+
+  Template.myGalleries.events({
+    'click button#imgSend' : function () {
+      filepicker.pick();
+    }
+  });
+
+  Template.myGalleries.rendered = function () {
+      if (!Session.get("widgetSet")) {  
+        var cb = function () {
+          filepicker.constructWidget(document.getElementById('constructed-widget'));
+          filepicker.makeDropPane($('#exampleDropPane')[0], { });
+        };
+        loadPicker(key, cb);
+      }
+    };
