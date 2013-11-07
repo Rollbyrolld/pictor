@@ -1,5 +1,5 @@
 Template.list.posts= function () {
- return Posts.find({}, {sort: {created_on:-1}})  // вывести сообщения в порядке, где последнее по дате выше
+ return Posts.find({}, {sort: {created_on:-1}}); // вывести сообщения в порядке, где последнее по дате выше
 };
 
 Template.userlist.users= function () {
@@ -13,71 +13,71 @@ Template.form.events({
     else { 
        var options = { ownPost: $("#textarea").val() };
       if (Meteor.user()) {
-        options.name = Meteor.user().username   //Meteor.user().emails[0].address;
+        options.name = Meteor.user().username;  //Meteor.user().emails[0].address;
       }
       else {
         options.name = $('#firstName').val();
       }
       Posts.insert(options);
-    };
+    }
 
     $('#textarea').val('');
     $('#firstName').val('');             
   }
 });
 
-Template.profile.events({
+/*Template.profile.events({
   'click button#buttonSave' : function () {
     //if(!$('fullFirstName').val()) {}
       //else( )
       var profile = {
         fullFirstName : function () {
           if (!$('#fullFirstName').val()) {}
-          else {$('#fullFirstName').val()
+          else {
+            $('#fullFirstName').val();
           }
         },
         fullLastName :  function () {
           if (!$('#fullLastName').val()) {}
-          else {$('#fullLastName').val()
+          else {$('#fullLastName').val();
           }
         },
         avURL :  function () {
           if (!$('#avURL').val()) {}
-          else {$('#avURL').val()
+          else {$('#avURL').val();
+          }
         }
-       
-
-      }
+      };
    // Users.insert(profile);
+  
   }
-}
-});
+});*/
 
-Template.myGalleries.events({
+/*Template.myGalleries.events({
   'click button#imgSend' : function () {
 
     if (!$('#image').val()) {
-      alert ("Не введдён адрес");
-      return noimage = "Не введдён адрес"
+      alert ("Не введдён адрес");  
     }
 
     else { 
-         var options = { image : $("#image").val(),
-                         note : $("#imageNote").val(), 
-                         imageCollection : $("#imageCollection").val()
-          };     
-      if (Meteor.user()) {
+          var options = { image : $("#image").val(),
+                          note : $("#imageNote").val(), 
+                          imageCollection : $("#imageCollection").val()
+                        };   
+    if (Meteor.user()) {
         options.from_id = Meteor.user()._id;
         options.username = Meteor.user().username;
         }
 
       Images.insert(options);
     }
-
     $('#image').val(''); 
-    $("#imageNote").val('');          
+    $("#imageNote").val('');  
+
   }
-});
+});*/
+   
 
 Template.privateMessagePanel.events({
   'click button#send' : function () {
@@ -95,7 +95,7 @@ Template.privateMessagePanel.events({
         options.username = $('#firstName').val();
       }
       Messages.insert(options);
-    };
+    }
 
     $('#textarea').val('');           
   }

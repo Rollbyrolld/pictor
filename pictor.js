@@ -61,11 +61,10 @@ if (Meteor.isClient) {
         avURL :  function () {
           if (!$('#avURL').val()) {}
           else {$('#avURL').val()
-        }
-       
-
+          } 
+        }  
       }
-    Users.insert(profile);
+   Users.insert(profile);
   }
  });
  // ----------------- последняя скобка
