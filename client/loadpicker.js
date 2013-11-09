@@ -1,4 +1,4 @@
-
+/*
   Session.set("widgetSet", false);
   var key = "Acip6PqCWSSGI9oJyv9u6z";
 
@@ -22,4 +22,4 @@
         };
         loadPicker(key, cb);
       }
-    };
+    };*/

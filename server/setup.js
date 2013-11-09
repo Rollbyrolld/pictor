@@ -12,4 +12,3 @@ Meteor.startup(function () {
   Posts.allow({ insert: thisTime});
   Messages.allow({ insert: thisTime});
 });*/
-
