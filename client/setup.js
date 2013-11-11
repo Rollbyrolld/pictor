@@ -6,7 +6,7 @@ Router.map(function() {               // карта сайта
   this.route('userlist');
   this.route('buyPicture');
   this.route('profile');
-  this.route('myGalleries'); 
+  this.route('myGalleries');
   this.route('privateMessagePanel',{
     path: '/users/:_id',
     data: function() {return Meteor.users.findOne(this.params._id);},

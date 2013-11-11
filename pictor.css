@@ -489,3 +489,6 @@ input {
   border-radius: 6px;
   margin-bottom: 20px;
 }
+.carousel-control.left, .carousel-control.right {
+  background-image: none !important;
+}

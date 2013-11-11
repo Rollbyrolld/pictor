@@ -1,12 +1,12 @@
 <head>
   <title>Pictor</title>
 </head>
-
+ 
 <body>
 </body>
-
+ 
   <!--  ================== layout ================================ -->
-
+ 
 <template name="layout">  
 <div class="navbar navbar-default" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
@@ -16,16 +16,17 @@
       
       <strong>Pictor</strong></a>
   </div>
-
+ 
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav">
-      <li class="active" id="GlobalPicGallery"><a href="{{pathFor 'userlist'}}">Глобальная выставка</a></li>
+      <li class="active" id="GlobalPicGallery"><a href={{pathFor 'userlist'}}>Глобальная выставка</a></li>
       <li><a class="passive" href="buyPicture">Продать картину</a></li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Купить картину<b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li><a href="#">Самые популярные</a></li>
+          <li><a href="#">По ценам</a></li>
           <li><a href="#">Самые покупаемые</a></li>
           <li><a href="#">Каталог авторов</a></li>
           <li><a href="#">Лучшие художники</a></li>
@@ -33,8 +34,15 @@
           <li><a href="#">Помощь в оформлении документов</a></li>
         </ul>
       </li>
+      <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Работа художнику<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Разместить заказ</a></li>
+            <li><a href="#">Все заказы</a></li>
+          </ul>
+      </li> -->
     </ul>
-
+ 
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="?">
@@ -55,11 +63,11 @@
         <div class="col-md-2">
           <ul class="nav nav-pills nav-stacked">
                 {{#if currentUser}}
-                  <li><a href="{{pathFor 'myPage'}}">Моя Страница </a></li>
-                   <li><a href="{{pathFor 'myGalleries'}}">Мои Выставки</a></li>
-                  <li><a href="{{pathFor 'myMessages'}}">Мои Сообщения</a></li>
+                  <li><a href={{pathFor 'myPage'}}>Моя Страница </a></li>
+                   <li><a href={{pathFor 'myGalleries'}}>Мои Выставки</a></li>
+                  <li><a href={{pathFor 'myMessages'}}>Мои Сообщения</a></li>
                 {{/if}}
-              <li><a href="{{pathFor 'guestbook'}}">Гостевая</a></li>
+              <li><a href={{pathFor 'guestbook'}}>Гостевая</a></li>
               <li><a href="#">Промо-Акции</a></li>
               <li><a href="#">Конкурсы</a></li>
               <li><a href="#">Награждения</a></li>    
@@ -78,9 +86,9 @@
         <p>&copy; ООО Срост 2013</p>
    </footer>
 </template>
-
+ 
 <!--  ================== Templates ================================ -->
-
+ 
  <template name="home">  
    <div class="container">
       <h3>Открыта глобальная выставка картин!</h3>
@@ -94,7 +102,7 @@
              
   </div>
  </template>
-
+ 
   <template name="textarea">
     <div class="formPanel">
       <form>
@@ -106,25 +114,15 @@
       </form>
     </div>  
   </template>
-
+ 
  <!-- ==================== Гостевая ============================================= -->
-
+ 
   <template name="guestbook">
       {{> form}}
       <hr style="hrDarkGray">
       {{> list}}
  </template>
-
-<template name="myPage">
-  <div>
-    <p><a class="btn btn-default btn-xs" href="{{pathFor 'profile'}}">Редактировать &raquo;</a></p>
-    </span> <h1><span class="glyphicon glyphicon-thumbs-up">  Содержание страницыавтора</h1>
-  </div>
-  <div>
-    
-  </div>
-</template>
-
+ 
   <template name="form">
     <div class="formPanel">
       <form>
@@ -136,7 +134,7 @@
       </form>
     </div>  
   </template>
-
+ 
   <template name="list">
   <div >
    
@@ -145,7 +143,7 @@
     {{/each}}
   </div>
 </template>
-
+ 
 <template name="post">
   <div >
     <h4>{{name}}</h4>
@@ -157,23 +155,43 @@
   <p><label for="firstName">Имя</label>
   <input  id="firstName" name="firstName"></p>
 </template>
-
+ 
 <!-- ==================== Пользователи ============================================= -->
-
-<!--<template name="profile">
+<template name="profile">
   <div class="formPanel">
     <form>
-      <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя"></p>
-      <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия"></p>
-      <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара"></p>
+      <h6>Дайте ту информацию о себе, которую считаете нужной</h6>
+      <hr>        
+      <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя" value={{user.profile.fullFirstName}}></p>
+      <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия" value={{user.profile.fullLastName}}></p>
+      <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара" value={{user.profile.avURL}}></p>
       <h4>Об авторе:</h4>
-      <p><textarea class="inputForm" id="aboutAuthor"></textarea></p>     
+      <p><textarea class="inputForm" id="aboutAuthor" value={{user.profile.aboutAuthor}}></textarea></p>   
+      <p><input class="inputForm" id="tel" name="tel" placeholder="Телефон" value={{user.profile.tel}}></p>
+      <p><input class="inputForm" id="email" name="email" placeholder="e-mail" value={{user.profile.email}}></p>
+      <p><input class="inputForm" id="vk" name="vk" placeholder="Адрес Вконтакте" value={{user.profile.vk}}></p>  
       
       <p><button class="btn btn-default" type="submit" form="data"  id="buttonSave">Сохранить</button></p>
     </form>
   </div> 
-</template> -->
+</template> 
 
+ 
+<template name="myPage">
+  <div>
+    <p><a class="btn btn-default btn-xs" href={{pathFor 'profile'}}>Редактировать &raquo;</a></p>
+     <h4>Aвтор </h4>
+    <div>
+      <img src={{user.profile.avURL}}>
+      <h1>{{user.profile.fullFirstName}}&nbsp;{{user.profile.fullLastName}}</h1>
+      <p>{{user.profile.aboutAuthor}}</p>
+      <p>{{user.profile.tel}}</p>
+      <p>{{user.profile.email}}</p>
+      <p>{{user.profile.vk}}</p>
+    </div> 
+  </div>
+</template>
+ 
 <template name="userlist">
   <h5>Здесь будет выводиться рэндом-картинка</h5>
   {{> carousel}}
@@ -185,18 +203,18 @@
     {{/each}}
   </div>
 </template>
-
+ 
 <template name="user">
   <div >
     <h5>Аватар</h5>
    <h4><a href="{{pathFor 'privateMessagePanel' _id=this._id}}"  class="username">{{username}}</a></h4>
   </div>
   <p>Галереи художника</p>
-
+ 
 </template>
-
+ 
 <!-- ==================== Сообщениия ============================================= -->
-
+ 
 <template name="myMessages">
   <h3>Мои сообщения</h3>
   <p>выберите пользователя</p>
@@ -207,14 +225,14 @@
     {{/each}}
   </div>
 </template>
-
+ 
 <template name="message">
   <div >
     <h4><a href="{{pathFor 'privateMessagePanel' _id=from_id}}"  class="username">{{username}}</a></h4>
     <p>{{message}}</p> 
   </div>
 </template>
-
+ 
   <template name="privateMessagePanel">
     <div class="formPanel">
       <form>
@@ -228,7 +246,7 @@
       {{> message}}
     {{/each}} 
   </template>
-
+ 
   <!-- <template name="buyPicture">
    
     {{#if currentUser}}
@@ -238,11 +256,11 @@
       {{/if}}
     </div>  
   </template> -->
-
+ 
 <!-- ==================== Картинки ============================================= -->
   
-
-
+ 
+ 
   <!--<template name="myGalleries">
     <div>
     <h1>добавить персональную выставку</h1>
@@ -263,13 +281,13 @@
    
  
   </template> -->
-
+ 
 <template name="carousel">
   <div id="carousel-example-generic" class="carousel"  data-interval=false>
-
+ 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
-
+ 
       <div class="item active">
         <img src="http://t1.gstatic.com/images?q=tbn:ANd9GcTWoj5yiB6IleK_1BJJCkUFnfMCD2_bq4e3_tcQX5d2XxqZOfET" alt="...">
         <div class="carousel-caption">
@@ -277,7 +295,7 @@
           <p></p>
         </div>
       </div> 
-
+ 
       <div class="item">
         <img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQKm1L4Sghrou_Ae5sqzqAWLicRAIGGMIHZffhhk13WnnQBbROefQ" alt="...">
         <div class="carousel-caption">
@@ -285,10 +303,10 @@
           <p></p>
         </div>
       </div> 
-
+ 
            
     </div>
-
+ 
     <!-- Controls -->
     <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
       <span class="icon-prev"></span>
@@ -298,8 +316,8 @@
     </a>
   </div>
 </template>
-
-
-
-
+ 
+ 
+ 
+ 
   <!--  ================== /Templates ================================ -->
