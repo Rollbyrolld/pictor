@@ -99,9 +99,19 @@ Template.privateMessagePanel.events({
     $('#textarea').val('');           
   }
 });
+
+Template._loginButtons.events({
+  'click #login-buttons-logout': function() {
+    Meteor.logout(function () {
+      Router.go('/');
+    });
+  }
+});
  
 Template.privateMessagePanel.messages= function () {
-  return Messages.find({$or: [{to_id: Meteor.user()._id, from_id: this._id }, {to_id: this._id, from_id: Meteor.user()._id }]}, {sort: {created_on:-1}}); 
+  return Messages.find({$or: [{to_id: Meteor.userId(), from_id: this._id }, 
+                              {to_id: this._id, from_id: Meteor.userId() }]}, 
+                              {sort: {created_on:-1}}); 
 }; 
  
 Template.myMessages.messages= function () {

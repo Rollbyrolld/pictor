@@ -461,6 +461,10 @@ footer {
   border: blue;
 }
 
+/*.sendUser {
+  border-radius: 5px !important;
+}*/
+
 input {
   border-radius: 5px !important;
 }
@@ -491,4 +495,7 @@ input {
 }
 .carousel-control.left, .carousel-control.right {
   background-image: none !important;
+}
+.float-right {
+  float: right;
 }

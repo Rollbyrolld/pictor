@@ -179,7 +179,9 @@
  
 <template name="myPage">
   <div>
-    <p><a class="btn btn-default btn-xs" href={{pathFor 'profile'}}>Редактировать &raquo;</a></p>
+    <div class="float-right">
+      <a class="btn btn-default btn-xs" href={{pathFor 'profile'}}>Редактировать</a>
+    </div>
      <h4>Aвтор </h4>
     <div>
       <img src={{user.profile.avURL}}>
@@ -189,6 +191,9 @@
       <p>{{user.profile.email}}</p>
       <p>{{user.profile.vk}}</p>
     </div> 
+    <!--<div class="float-right">
+      <a class="btn btn-default" href="{{pathFor 'privateMessagePanel' _id=user_id}}">Написать сообщение</a>
+    </div>-->
   </div>
 </template>
  
@@ -238,7 +243,7 @@
       <form>
         <h4>Написать сообщение для {{username}}</h4>
         {{> textarea}}
-        <p><button type="submit" form="data"  id="send">Отправить</button></p>
+        <p><button class="sendUser" type="submit" form="data"  id="send">Отправить</button></p>
       </form>
       <hr>
     </div>  
