@@ -12,7 +12,7 @@ Router.map(function() {               // карта сайта
     data: function() {return Meteor.users.findOne(this.params._id);},
   });
   this.route('privateMessagePanel',{
-    path: '/users/:_id',
+    path: '/users/:_id/messages',
     data: function() {return Meteor.users.findOne(this.params._id);},
   });
 });

@@ -89,7 +89,7 @@ Template.privateMessagePanel.events({
  
     else { 
        var options = { message: $("#textarea").val(),
-                       to_id : users.profile._id
+                       to_id : this._id
                        };
       if (Meteor.user()) {
         options.from_id = Meteor.user()._id;
