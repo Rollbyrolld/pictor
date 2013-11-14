@@ -13,6 +13,10 @@ Template.myPage.user = function () {
 Template.profile.user = function () {
   return Meteor.user();
 };
+
+Template.userProfile.users= function () {
+  return Meteor.users.findOne({_id : this._id});
+};
  
 Template.form.events({
   'click button#buttonNew' : function () {
@@ -43,6 +47,7 @@ Template.profile.events({
           fullLastName : $('#fullLastName').val(), 
           avURL : $('#avURL').val(), 
           aboutAuthor: $('#aboutAuthor').val(), 
+          tec: $('#tec').val(),
           tel: $('#tel').val(), 
           email: $('#email').val(), 
           vk: $('#vk').val()
@@ -51,7 +56,7 @@ Template.profile.events({
     }); 
   }
 });
- 
+
 /*Template.myGalleries.events({
   'click button#imgSend' : function () {
  
@@ -84,7 +89,7 @@ Template.privateMessagePanel.events({
  
     else { 
        var options = { message: $("#textarea").val(),
-                       to_id : this._id
+                       to_id : users.profile._id
                        };
       if (Meteor.user()) {
         options.from_id = Meteor.user()._id;

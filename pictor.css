@@ -499,3 +499,10 @@ input {
 .float-right {
   float: right;
 }
+.float-left {
+  float: left;
+  margin-right: 40px !important;
+}
+.border-radius {
+  border-radius: 5px !important;
+}

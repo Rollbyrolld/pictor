@@ -165,8 +165,9 @@
       <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя" value={{user.profile.fullFirstName}}></p>
       <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия" value={{user.profile.fullLastName}}></p>
       <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара" value={{user.profile.avURL}}></p>
+      <p><input class="inputForm" id="tec" name="tec" placeholder="Техника" value={{user.profile.tec}}></p>
       <h4>Об авторе:</h4>
-      <p><textarea class="inputForm" id="aboutAuthor" value={{user.profile.aboutAuthor}}></textarea></p>   
+      <p><textarea class="inputForm" id="aboutAuthor">{{user.profile.aboutAuthor}}</textarea></p>   
       <p><input class="inputForm" id="tel" name="tel" placeholder="Телефон" value={{user.profile.tel}}></p>
       <p><input class="inputForm" id="email" name="email" placeholder="e-mail" value={{user.profile.email}}></p>
       <p><input class="inputForm" id="vk" name="vk" placeholder="Адрес Вконтакте" value={{user.profile.vk}}></p>  
@@ -184,24 +185,52 @@
     </div>
      <h4>Aвтор </h4>
     <div>
-      <img src={{user.profile.avURL}}>
+      <div>
+        <img src={{user.profile.avURL}}>
+      </div>  
       <h1>{{user.profile.fullFirstName}}&nbsp;{{user.profile.fullLastName}}</h1>
       <p>{{user.profile.aboutAuthor}}</p>
       <p>{{user.profile.tel}}</p>
       <p>{{user.profile.email}}</p>
-      <p>{{user.profile.vk}}</p>
+      <div class="border-radius">
+        {{#if user.profile.vk}}
+          <p><a href={{user.profile.vk}}><img src="http://vk.com/images/vk32.png"></a></p>
+        {{/if}}
     </div> 
-    <!--<div class="float-right">
-      <a class="btn btn-default" href="{{pathFor 'privateMessagePanel' _id=user_id}}">Написать сообщение</a>
-    </div>-->
   </div>
+</template>
+
+<template name="userProfile">
+   <div >
+    <div>
+      <h4>{{users.profile.fullFirstName}}&nbsp;{{users.profile.fullLastName}}</h4>
+      <img src={{users.profile.avURL}}>
+      {{#if users.profile.tec}}
+        <p>Техника:&nbsp;{{users.profile.tec}}</p>
+      {{/if}} 
+      <p>{{users.profile.aboutAuthor}}</p>
+      {{#if users.profile.vk}}
+        <p>Телефон:&nbsp;{{users.profile.tel}}</p>
+      {{/if}}
+      {{#if users.profile.vk}}
+        <p>email:&nbsp;{{users.profile.email}}</p>
+      {{/if}}
+      <div class="border-radius">
+        {{#if users.profile.vk}}
+          <p><a href={{users.profile.vk}}><img src="http://vk.com/images/vk32.png"></a></p>
+        {{/if}}
+    </div> 
+    <div class="float-right">
+      <a class="btn btn-default" id="msgToUser" href="{{pathFor 'privateMessagePanel' _id=users.profile._id}}">Написать сообщение</a>
+    </div>
+  </div>
+  <!-- {{pathFor 'privateMessagePanel' _id=this._id}} -->
 </template>
  
 <template name="userlist">
   <h5>Здесь будет выводиться рэндом-картинка</h5>
   {{> carousel}}
   <hr>
-  <h3>Здесь будет выводиться список художников</h3>
    <div >
     {{#each users}}
     {{> user}}
@@ -211,11 +240,16 @@
  
 <template name="user">
   <div >
-    <h5>Аватар</h5>
-   <h4><a href="{{pathFor 'privateMessagePanel' _id=this._id}}"  class="username">{{username}}</a></h4>
+    <div class="float-left">
+      <a href="{{pathFor 'userProfile' _id=this._id}}"  class="username">
+        <img src={{profile.avURL}}>
+      </a>
+    </div>  
+   <h4><a href="{{pathFor 'userProfile' _id=this._id}}"  class="username">{{profile.fullFirstName}}&nbsp;{{profile.fullLastName}}</a></h4>
+   <p>Техника:</p>
+   <p>Галереи художника</p>
+   <hr>
   </div>
-  <p>Галереи художника</p>
- 
 </template>
  
 <!-- ==================== Сообщениия ============================================= -->
