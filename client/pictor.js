@@ -3,7 +3,7 @@ Template.list.posts= function () {
 };
  
 Template.userlist.users= function () {
-  return Meteor.users.find();
+  return Meteor.users.find({_id: {$ne: Meteor.userId()}});
 };
  
 Template.myPage.user = function () {
@@ -14,7 +14,7 @@ Template.profile.user = function () {
   return Meteor.user();
 };
 
-Template.userProfile.users= function () {
+Template.userProfile.user= function () {
   return Meteor.users.findOne({_id : this._id});
 };
  
@@ -92,7 +92,7 @@ Template.privateMessagePanel.events({
                        to_id : this._id
                        };
       if (Meteor.user()) {
-        options.from_id = Meteor.user()._id;
+        options.from_id = Meteor.userId();
         options.username = Meteor.user().username;
               }
       else {

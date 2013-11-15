@@ -189,9 +189,16 @@
         <img src={{user.profile.avURL}}>
       </div>  
       <h1>{{user.profile.fullFirstName}}&nbsp;{{user.profile.fullLastName}}</h1>
-      <p>{{user.profile.aboutAuthor}}</p>
-      <p>{{user.profile.tel}}</p>
-      <p>{{user.profile.email}}</p>
+      {{#if user.profile.tec}}
+        <p>Техника:&nbsp;{{user.profile.tec}}</p>
+      {{/if}}
+        <p>{{user.profile.aboutAuthor}}</p>
+      {{#if user.profile.tel}}
+        <p>Телефон:&nbsp;{{user.profile.tel}}</p>
+      {{/if}}
+      {{#if user.profile.email}}
+        <p>email:&nbsp;{{user.profile.email}}</p>
+      {{/if}}  
       <div class="border-radius">
         {{#if user.profile.vk}}
           <p><a href={{user.profile.vk}}><img src="http://vk.com/images/vk32.png"></a></p>
@@ -203,21 +210,21 @@
 <template name="userProfile">
    <div >
     <div>
-      <h4>{{users.profile.fullFirstName}}&nbsp;{{users.profile.fullLastName}}</h4>
-      <img src={{users.profile.avURL}}>
-      {{#if users.profile.tec}}
-        <p>Техника:&nbsp;{{users.profile.tec}}</p>
+      <h4>{{user.profile.fullFirstName}}&nbsp;{{user.profile.fullLastName}}</h4>
+      <img src={{user.profile.avURL}}>
+      {{#if user.profile.tec}}
+        <p>Техника:&nbsp;{{user.profile.tec}}</p>
       {{/if}} 
-      <p>{{users.profile.aboutAuthor}}</p>
-      {{#if users.profile.vk}}
-        <p>Телефон:&nbsp;{{users.profile.tel}}</p>
+      <p>{{user.profile.aboutAuthor}}</p>
+      {{#if user.profile.vk}}
+        <p>Телефон:&nbsp;{{user.profile.tel}}</p>
       {{/if}}
-      {{#if users.profile.vk}}
-        <p>email:&nbsp;{{users.profile.email}}</p>
+      {{#if user.profile.vk}}
+        <p>email:&nbsp;{{user.profile.email}}</p>
       {{/if}}
       <div class="border-radius">
-        {{#if users.profile.vk}}
-          <p><a href={{users.profile.vk}}><img src="http://vk.com/images/vk32.png"></a></p>
+        {{#if user.profile.vk}}
+          <p><a href={{user.profile.vk}}><img src="http://vk.com/images/vk32.png"></a></p>
         {{/if}}
     </div> 
     <div class="float-right">
@@ -245,8 +252,10 @@
         <img src={{profile.avURL}}>
       </a>
     </div>  
-   <h4><a href="{{pathFor 'userProfile' _id=this._id}}"  class="username">{{profile.fullFirstName}}&nbsp;{{profile.fullLastName}}</a></h4>
-   <p>Техника:</p>
+  <h4><a href="{{pathFor 'userProfile' _id=this._id}}"  class="username">{{profile.fullFirstName}}&nbsp;{{profile.fullLastName}}</a></h4>
+  {{#if profile.tec}}
+    <p>Техника:&nbsp;{{profile.tec}}</p>
+  {{/if}}
    <p>Галереи художника</p>
    <hr>
   </div>
