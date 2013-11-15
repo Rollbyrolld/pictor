@@ -161,16 +161,37 @@
   <div class="formPanel">
     <form>
       <h6>Дайте ту информацию о себе, которую считаете нужной</h6>
-      <hr>        
-      <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя" value={{user.profile.fullFirstName}}></p>
-      <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия" value={{user.profile.fullLastName}}></p>
-      <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара" value={{user.profile.avURL}}></p>
-      <p><input class="inputForm" id="tec" name="tec" placeholder="Техника" value={{user.profile.tec}}></p>
+      <hr>       
+      <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя" value={{user.profile.fullFirstName}}>
+      {{#if user.profile.fullFirstName}}
+        Имя
+      {{/if}} </p>
+      <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия" value={{user.profile.fullLastName}}>
+      {{#if user.profile.fullLastName}}
+        Фамилия
+      {{/if}}</p>
+      <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара" value={{user.profile.avURL}}>
+      {{#if user.profile.avURL}}
+        URL аватара
+      {{/if}}</p>
+      <p><input class="inputForm" id="tec" name="tec" placeholder="Техника" value={{user.profile.tec}}>
+      {{#if user.profile.tec}}
+        Техника
+      {{/if}}</p>
       <h4>Об авторе:</h4>
       <p><textarea class="inputForm" id="aboutAuthor">{{user.profile.aboutAuthor}}</textarea></p>   
-      <p><input class="inputForm" id="tel" name="tel" placeholder="Телефон" value={{user.profile.tel}}></p>
-      <p><input class="inputForm" id="email" name="email" placeholder="e-mail" value={{user.profile.email}}></p>
-      <p><input class="inputForm" id="vk" name="vk" placeholder="Адрес Вконтакте" value={{user.profile.vk}}></p>  
+      <p><input class="inputForm" id="tel" name="tel" placeholder="Телефон" value={{user.profile.tel}}>
+      {{#if user.profile.tel}}
+        Телефон
+      {{/if}}</p>
+      <p><input class="inputForm" id="email" name="email" placeholder="e-mail" value={{user.profile.email}}>
+      {{#if user.profile.email}}
+        email
+      {{/if}}</p>
+      <p><input class="inputForm" id="vk" name="vk" placeholder="Адрес Вконтакте" value={{user.profile.vk}}>
+      {{#if user.profile.vk}}
+        Адрес Вконтакте
+      {{/if}}</p>  
       
       <p><button class="btn btn-default" type="submit" form="data"  id="buttonSave">Сохранить</button></p>
     </form>
