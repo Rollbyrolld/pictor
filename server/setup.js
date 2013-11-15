@@ -9,8 +9,8 @@ Meteor.startup(function () {
       return true; 
     }});
     //----------------------Remove-block-----------------------------------
-    Meteor.users.remove({}); 
+    //Meteor.users.remove({}); 
     //Meteor.users.remove({username: "test", username: "testuser"});
-    Posts.remove({}); 
-    Messages.remove({}); 
+    //Posts.remove({}); 
+    //Messages.remove({}); 
   });
