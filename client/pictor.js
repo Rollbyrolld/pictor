@@ -17,7 +17,25 @@ Template.profile.user = function () {
 Template.userProfile.user= function () {
   return Meteor.users.findOne({_id : this._id});
 };
+
+Template.privateMessagePanel.messages= function () {
+  return Messages.find({$or: [{to_id: Meteor.userId(), from_id: this._id }, 
+                              {to_id: this._id, from_id: Meteor.userId() }]}, 
+                              {sort: {created_on:-1}}); 
+}; 
  
+Template.myMessages.messages= function () {
+  return Messages.find({to_id: Meteor.userId()}, {sort: {created_on:-1}});  
+};
+ 
+Template.textarea.user= function () {
+  return Meteor.user();
+};
+
+Template.jobs.messages= function () {
+  return Messages.find({to_id: "jobList"}, {sort: {created_on:-1}});  
+};
+
 Template.form.events({
   'click button#buttonNew' : function () {
     if (!$('#textarea').val()) {}
@@ -25,7 +43,8 @@ Template.form.events({
     else { 
        var options = { ownPost: $("#textarea").val() };
       if (Meteor.user()) {
-        options.name = Meteor.user().username;  //Meteor.user().emails[0].address;
+        options.name = Meteor.user().profile.fullFirstName;  //Meteor.user().emails[0].address;
+        options.lastname = Meteor.user().profile.fullLastName;
       }
       else {
         options.name = $('#firstName').val();
@@ -42,6 +61,7 @@ Template.profile.events({
   'click button#buttonSave' : function () {
     Meteor.users.update(Meteor.userId(), {
       $set: {
+
         profile: {
           fullFirstName : $('#fullFirstName').val(), 
           fullLastName : $('#fullLastName').val(), 
@@ -56,6 +76,8 @@ Template.profile.events({
     }); 
   }
 });
+
+
 
 /*Template.myGalleries.events({
   'click button#imgSend' : function () {
@@ -93,7 +115,8 @@ Template.privateMessagePanel.events({
                        };
       if (Meteor.user()) {
         options.from_id = Meteor.userId();
-        options.username = Meteor.user().username;
+        options.username = Meteor.user().profile.fullFirstName;
+        options.lastname = Meteor.user().profile.fullLastName;
               }
       else {
         options.username = $('#firstName').val();
@@ -105,20 +128,55 @@ Template.privateMessagePanel.events({
   }
 });
 
-Template._loginButtons.events({
+/*Template._loginButtons.events({
   'click #login-buttons-logout': function() {
     Meteor.logout(function () {
       Router.go('/');
     });
   }
+});*/
+
+Template._loginButtons.events({
+    'click #login-buttons-logout': function() {
+      Meteor.logout(function () {
+        loginButtonsSession.closeDropdown();
+        Router.go('/');
+      });
+    }
+  });
+
+ 
+Template.postJob.events({
+  'click button#postJob': function() {
+      if (!$('#textarea').val()) {}
+      
+      else { 
+        var options = { message: $("#textarea").val(),
+                         to_id : "jobList"
+                         };
+        if (Meteor.user()) {
+          if(!Meteor.user().profile.fullFirstName){
+            Meteor.users.update(Meteor.userId(), {
+              $set: {
+                profile: {
+                  fullFirstName : $('#fullFirstNameSimplyRegistration').val(), 
+                  fullLastName : $('#fullLastNameSimplyRegistration').val(), 
+                }
+              }
+            }); 
+          }
+          options.from_id = Meteor.userId();
+          options.username = Meteor.user().profile.fullFirstName;
+          options.lastname = Meteor.user().profile.fullLastName;
+                }
+        else {
+          options.username = $('#firstName').val();
+        }
+        Messages.insert(options);
+      }
+      
+      $('#textarea').val('');  
+      Router.go('jobs');
+  
+  }
 });
- 
-Template.privateMessagePanel.messages= function () {
-  return Messages.find({$or: [{to_id: Meteor.userId(), from_id: this._id }, 
-                              {to_id: this._id, from_id: Meteor.userId() }]}, 
-                              {sort: {created_on:-1}}); 
-}; 
- 
-Template.myMessages.messages= function () {
-  return Messages.find({to_id: Meteor.user()._id}, {sort: {created_on:-1}});  
-};

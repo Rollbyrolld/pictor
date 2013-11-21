@@ -1,5 +1,5 @@
 <head>
-  <title>Pictor</title>
+  <title>FreePictor</title>
 </head>
  
 <body>
@@ -14,7 +14,7 @@
    
     <a class="navbar-brand" href="{{pathFor 'home'}}">
       
-      <strong>Pictor</strong></a>
+      <strong>freePictor</strong></a>
   </div>
  
   <!-- Collect the nav links, forms, and other content for toggling -->
@@ -34,21 +34,21 @@
           <li><a href="#">Помощь в оформлении документов</a></li>
         </ul>
       </li>
-      <!--<li class="dropdown">
+      <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Работа художнику<b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Разместить заказ</a></li>
-            <li><a href="#">Все заказы</a></li>
+            <li><a href={{pathFor 'postJob'}}>Разместить заказ</a></li>
+            <li><a href={{pathFor 'jobs'}}>Все заказы</a></li> 
           </ul>
-      </li> -->
+      </li> 
     </ul>
  
-    <form class="navbar-form navbar-left" role="search">
+    <!--<form class="navbar-form navbar-left" role="search">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="?">
       </div>
       <button type="submit" class="btn btn-default">Поиск</button>
-    </form>
+    </form>-->
     
     <ul class="nav navbar-nav navbar-right">
      
@@ -67,10 +67,12 @@
                    <li><a href={{pathFor 'myGalleries'}}>Мои Выставки</a></li>
                   <li><a href={{pathFor 'myMessages'}}>Мои Сообщения</a></li>
                 {{/if}}
-              <li><a href={{pathFor 'guestbook'}}>Гостевая</a></li>
-              <li><a href="#">Промо-Акции</a></li>
+              <li><a href={{pathFor 'guestbook'}}>Новости</a></li>
+              <li><a href={{pathFor 'search'}}>Поиск</a></li>
+              <!--<li><a href="#">Промо-Акции</a></li>
               <li><a href="#">Конкурсы</a></li>
-              <li><a href="#">Награждения</a></li>    
+              <li><a href="#">Награждения</a></li>-->   
+
             </ul>
         </div>
         <div class="col-md-8">
@@ -107,8 +109,15 @@
     <div class="formPanel">
       <form>
         <p><textarea class="inputForm" id="textarea"></textarea></p>
-             {{#if currentUser}}
-               {{else}}
+          {{#if currentUser}}
+            {{#if user.profile.fullFirstName}}
+            {{else}}
+              <p>Введите имя и фамилию чтобы отправить сообщение</p>
+              <p><input class="inputForm" id="fullFirstNameSimplyRegistration" name="fullFirstNameSimplyRegistration" placeholder="Ваше имя"></p>
+              <p><input class="inputForm" id="fullLastNameSimplyRegistration" name="fullLastNameSimplyRegistration"  placeholder="Ваша фамилия"</p>
+              <hr>  
+            {{/if}}
+          {{else}}
                  {{> signup}} 
               {{/if}}
       </form>
@@ -126,7 +135,7 @@
   <template name="form">
     <div class="formPanel">
       <form>
-        <h4>Напишите в гостевую:</h4>
+        <h4>Напишите новость:</h4>
         {{> textarea}}
         
         <p><button class="btn btn-default" type="submit" form="data"  id="buttonNew">Отправить</button></p>      
@@ -146,7 +155,7 @@
  
 <template name="post">
   <div >
-    <h4>{{name}}</h4>
+    <h4>{{name}}&nbsp;{{lastname}}</h4>
     <p>{{ownPost}}</p> 
   </div>
 </template>
@@ -160,16 +169,23 @@
 <template name="profile">
   <div class="formPanel">
     <form>
-      <h6>Дайте ту информацию о себе, которую считаете нужной</h6>
-      <hr>       
+      <h5>Дайте ту информацию о себе, которую считаете нужной</h5>
+      <hr>  
+      <h6>Поля, помеченные * обязательны для заполнения</h6>   
       <p><input class="inputForm" id="fullFirstName" name="fullFirstName" placeholder="Ваше имя" value={{user.profile.fullFirstName}}>
       {{#if user.profile.fullFirstName}}
-        Имя
-      {{/if}} </p>
+        Имя 
+      {{else}} 
+        *
+      {{/if}}
+      </p>
       <p><input class="inputForm" id="fullLastName" name="fullLastName" placeholder="Ваша фамилия" value={{user.profile.fullLastName}}>
       {{#if user.profile.fullLastName}}
         Фамилия
+      {{else}} 
+        *
       {{/if}}</p>
+      <hr>  
       <p><input class="inputForm" id="avURL" name="avURL" placeholder="URL аватара" value={{user.profile.avURL}}>
       {{#if user.profile.avURL}}
         URL аватара
@@ -184,9 +200,13 @@
       {{#if user.profile.tel}}
         Телефон
       {{/if}}</p>
-      <p><input class="inputForm" id="email" name="email" placeholder="e-mail" value={{user.profile.email}}>
-      {{#if user.profile.email}}
-        email
+      <p><input class="inputForm" id="email" name="email" placeholder="email" value={{#if user.profile.email}}
+              {{user.profile.email}}
+            {{else}}
+              {{user.emails.0.address}}
+            {{/if}}>
+      {{#if user.emails.0.address}}
+        email, который будет виден другим пользователям сайта
       {{/if}}</p>
       <p><input class="inputForm" id="vk" name="vk" placeholder="Адрес Вконтакте" value={{user.profile.vk}}>
       {{#if user.profile.vk}}
@@ -217,9 +237,12 @@
       {{#if user.profile.tel}}
         <p>Телефон:&nbsp;{{user.profile.tel}}</p>
       {{/if}}
-      {{#if user.profile.email}}
-        <p>email:&nbsp;{{user.profile.email}}</p>
+      {{#if user.emails.0.address}}
+        <p>email <small>под которым Вы зарегистрированы:</small>&nbsp;{{user.emails.0.address}}</p>
       {{/if}}  
+      {{#if user.profile.email}}
+        <p>email <small>который будет виден другим пользователям сайта:</small>&nbsp;{{user.profile.email}}</p>
+      {{/if}} 
       <div class="border-radius">
         {{#if user.profile.vk}}
           <p><a href={{user.profile.vk}}><img src="http://vk.com/images/vk32.png"></a></p>
@@ -265,7 +288,7 @@
     {{/each}}
   </div>
 </template>
- 
+
 <template name="user">
   <div >
     <div class="float-left">
@@ -297,7 +320,7 @@
  
 <template name="message">
   <div >
-    <h4><a href="{{pathFor 'privateMessagePanel' _id=from_id}}"  class="username">{{username}}</a></h4>
+    <h4><a href="{{pathFor 'privateMessagePanel' _id=from_id}}"  class="username">{{username}}&nbsp;{{lastname}}</a></h4>
     <p>{{message}}</p> 
   </div>
 </template>
@@ -330,26 +353,27 @@
   
  
  
-  <!--<template name="myGalleries">
+  <template name="myGalleries">
     <div>
     <h1>добавить персональную выставку</h1>
-    <form>
+    <!--<form>
        <p><input class="inputForm" id="imageCollection" name="imageCollection" placeholder="Название выставки"></p>
        <p><input class="inputForm" id="image" name="image" placeholder="URL картинки">{{noimage}}</p>
        <p><input class="inputForm" id="imageNote" name="imageNote" placeholder="Название картины"></p>
-<h1>Widget</h1>
+
+       
+     <button class="btn" type="submit" form="data"  id="imgSend">Отправить</button>
+    </form> -->
+    <h1>Widget</h1>
   <div id="constructed-widget" value="empty" type="filepicker-dragdrop" style="display: none;">
   </div>
 <h1>Drop Pane</h1>
   <div id="exampleDropPane">Drop Here!</div>
   <div><pre id="localDropResult"></pre></div>
-       
-     <button class="btn" type="submit" form="data"  id="imgSend">Отправить</button>
-    </form>
     </div> 
    
  
-  </template> -->
+  </template> 
  
 <template name="carousel">
   <div id="carousel-example-generic" class="carousel"  data-interval=false>
@@ -358,7 +382,31 @@
     <div class="carousel-inner">
  
       <div class="item active">
-        <img src="http://t1.gstatic.com/images?q=tbn:ANd9GcTWoj5yiB6IleK_1BJJCkUFnfMCD2_bq4e3_tcQX5d2XxqZOfET" alt="...">
+        <img src="http://cs14112.vk.me/c7007/v7007357/c021/W6LSuZH5ehc.jpg" alt="...">
+        <div class="carousel-caption">
+          <h3></h3>
+          <p></p>
+        </div>
+      </div> 
+
+      <div class="item ">
+        <img src="http://cs14112.vk.me/c540104/v540104789/9464/pAIKc84akWM.jpg" alt="...">
+        <div class="carousel-caption">
+          <h3></h3>
+          <p></p>
+        </div>
+      </div> 
+
+       <div class="item ">
+        <img src="http://cs406820.vk.me/v406820789/7a9e/c3cT45Zodd4.jpg" alt="...">
+        <div class="carousel-caption">
+          <h3></h3>
+          <p></p>
+        </div>
+      </div> 
+
+       <div class="item ">
+        <img src="http://cs14112.vk.me/c540104/v540104789/7711/o7nSI6RNoEw.jpg" alt="...">
         <div class="carousel-caption">
           <h3></h3>
           <p></p>
@@ -366,7 +414,7 @@
       </div> 
  
       <div class="item">
-        <img src="http://t0.gstatic.com/images?q=tbn:ANd9GcQKm1L4Sghrou_Ae5sqzqAWLicRAIGGMIHZffhhk13WnnQBbROefQ" alt="...">
+        <img src="http://cs309821.vk.me/v309821357/9670/MWCld_95lb8.jpg" alt="...">
         <div class="carousel-caption">
           <h3></h3>
           <p></p>
@@ -386,7 +434,28 @@
   </div>
 </template>
  
+  <!--  ================== Jobs ================================ -->
  
- 
+<template name="postJob">
+  <div class="formPanel">
+    <form>
+      <h4>Разместите заказ для художника</h4>
+      {{> textarea}}
+      <p><button class="sendUser" type="submit" form="data"  id="postJob">Отправить</button></p>
+    </form>
+    <hr>
+  </div>  
+</template>
+
+<template name="jobs">
+  <h3>Работа художнику</h3>
+  <hr>
+  <div >
+    {{#each messages}}
+    {{> message}}
+    {{/each}}
+  </div>
+  <hr>
+</template>
  
   <!--  ================== /Templates ================================ -->

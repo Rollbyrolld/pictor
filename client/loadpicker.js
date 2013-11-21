@@ -1,13 +1,8 @@
-/*
+
   Session.set("widgetSet", false);
   var key = "Acip6PqCWSSGI9oJyv9u6z";
 
-  Template.myGalleries.rendered = function ( ) { 
-    if (!Session.get("widgetSet")) {  
-      loadPicker(key);
-    }
-  };
-
+  
   Template.myGalleries.events({
     'click button#imgSend' : function () {
       filepicker.pick();
@@ -22,4 +17,4 @@
         };
         loadPicker(key, cb);
       }
-    };*/
+    };

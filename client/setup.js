@@ -1,12 +1,15 @@
 Router.map(function() {               // карта сайта
   this.route('home', {path: '/'});
+  this.route('search')
   this.route('guestbook');
   this.route('myPage'); 
   this.route('myMessages');
   this.route('userlist');
   this.route('buyPicture');
   this.route('profile');
-  this.route('myGalleries');
+  this.route('myGalleries'); 
+  this.route('postJob');  
+  this.route('jobs');
   this.route('userProfile',{
     path: '/users/:_id',
     data: function() {return Meteor.users.findOne(this.params._id);},
@@ -22,5 +25,5 @@ Router.configure({             // обьявление главного шабл
 });
 
 Accounts.ui.config({
- passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+ passwordSignupFields: 'EMAIL_ONLY'
 });
