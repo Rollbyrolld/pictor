@@ -118,8 +118,8 @@
               <hr>  
             {{/if}}
           {{else}}
-                 {{> signup}} 
-              {{/if}}
+            {{> signup}} 
+          {{/if}}
       </form>
     </div>  
   </template>
@@ -263,7 +263,7 @@
       {{#if user.profile.vk}}
         <p>Телефон:&nbsp;{{user.profile.tel}}</p>
       {{/if}}
-      {{#if user.profile.vk}}
+      {{#if user.profile.email}}
         <p>email:&nbsp;{{user.profile.email}}</p>
       {{/if}}
       <div class="border-radius">
@@ -272,7 +272,7 @@
         {{/if}}
     </div> 
     <div class="float-right">
-      <a class="btn btn-default" id="msgToUser" href="{{pathFor 'privateMessagePanel'}}">Написать сообщение</a>
+      <a class="btn btn-default" id="msgToUser" href="{{pathFor 'privateMessagePanel' _id=this._id}}">Написать сообщение</a>
     </div>
   </div>
   <!-- {{pathFor 'privateMessagePanel' _id=this._id}} -->
@@ -328,7 +328,7 @@
   <template name="privateMessagePanel">
     <div class="formPanel">
       <form>
-        <h4>Написать сообщение для {{username}}</h4>
+        <h4>Написать сообщение для {{user.profile.fullFirstName}}&nbsp;{{user.profile.fullLastName}}</h4>
         {{> textarea}}
         <p><button class="sendUser" type="submit" form="data"  id="send">Отправить</button></p>
       </form>
