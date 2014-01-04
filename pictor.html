@@ -110,10 +110,14 @@
       <form>
         <p><textarea class="inputForm" id="textarea"></textarea></p>
           {{#if currentUser}}
-            {{#if user.profile.fullFirstName}}
+            {{#if checkName}}
             {{else}}
               <p>Введите имя и фамилию чтобы отправить сообщение</p>
-              <p><input class="inputForm" id="fullFirstNameSimplyRegistration" name="fullFirstNameSimplyRegistration" placeholder="Ваше имя"></p>
+              <p><input class="inputForm" id="fullFirstNameSimplyRegistration" name="fullFirstNameSimplyRegistration" placeholder="Ваше имя">&nbsp;<strong class="enterfirstname"></strong>
+              <!--{{#if n}}
+                Введите имя
+              {{/if}}-->
+              </p>
               <p><input class="inputForm" id="fullLastNameSimplyRegistration" name="fullLastNameSimplyRegistration"  placeholder="Ваша фамилия"</p>
               <hr>  
             {{/if}}
@@ -135,7 +139,7 @@
   <template name="form">
     <div class="formPanel">
       <form>
-        <h4>Напишите новость:</h4>
+        <h4 id="alert">Напишите новость:</h4>
         {{> textarea}}
         
         <p><button class="btn btn-default" type="submit" form="data"  id="buttonNew">Отправить</button></p>      
@@ -162,11 +166,14 @@
     
 <template name="signup">
   <p><label for="firstName">Имя</label>
-  <input  id="firstName" name="firstName"></p>
+  <input  id="firstName" name="firstName">&nbsp;<strong class="enterfirstname"></strong></p>
+  <!-- {{#if true}}
+    Введите имя
+  {{/if}} -->
 </template>
  
 <!-- ==================== Пользователи ============================================= -->
-<template name="profile">
+<template name="profile"> <!-- юзер видит свой профайл -->
   <div class="formPanel">
     <form>
       <h5>Дайте ту информацию о себе, которую считаете нужной</h5>
@@ -251,7 +258,7 @@
   </div>
 </template>
 
-<template name="userProfile">
+<template name="userProfile"> <!-- юзер видит чужой профайл -->
    <div >
     <div>
       <h4>{{user.profile.fullFirstName}}&nbsp;{{user.profile.fullLastName}}</h4>
@@ -320,7 +327,8 @@
  
 <template name="message">
   <div >
-    <h4><a href="{{pathFor 'privateMessagePanel' _id=from_id}}"  class="username">{{username}}&nbsp;{{lastname}}</a></h4>
+    <h4><a href="{{pathFor 'privateMessagePanel' _id=from_id}}"  class="username">
+    {{fullName from_id}} </a></h4>
     <p>{{message}}</p> 
   </div>
 </template>

@@ -506,3 +506,6 @@ input {
 .border-radius {
   border-radius: 5px !important;
 }
+.enterfirstname {
+  color: red;
+}
