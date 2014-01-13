@@ -509,3 +509,6 @@ input {
 .enterfirstname {
   color: red;
 }
+.container {
+    max-width: none !important;
+  }

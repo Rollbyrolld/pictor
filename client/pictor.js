@@ -65,8 +65,7 @@ Template.form.events({
       var options = { ownPost: $("#textarea").val() }; 
       if (Meteor.user()) {
         if (Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName)) {
-          options.name = Meteor.user().profile.fullFirstName;  
-          options.lastname = Meteor.user().profile.fullLastName;
+          options.from_id = Meteor.userId();
 
           Posts.insert(options);
           $('#textarea').val('');
@@ -77,8 +76,7 @@ Template.form.events({
             $('.enterfirstname').text("Введите имя"); 
           }
           else {
-            options.name = $('#fullFirstNameSimplyRegistration').val();  
-            options.lastname = $('#fullLastNameSimplyRegistration').val();
+            options.from_id = Meteor.userId();
             Meteor.users.update(Meteor.userId(), {
               $set: {
                 profile: {
@@ -104,7 +102,8 @@ Template.form.events({
           $('.enterfirstname').text(""); 
         }
       }
-    }            
+    }   
+  Router.go('guestbook');         
   }
 });
  
@@ -167,7 +166,7 @@ Template.privateMessagePanel.events({
                        };
       if (Meteor.user()) {
         options.from_id = Meteor.userId();
-        if(!Meteor.user().profile.fullFirstName){
+        if(Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName)){
           if (!$('#fullFirstNameSimplyRegistration').val() || !$('#fullLastNameSimplyRegistration').val()) {}
           else {
             Meteor.users.update(Meteor.userId(), {
