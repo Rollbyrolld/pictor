@@ -80,7 +80,7 @@ Template.form.events({
               $set: {
                 profile: {
                   fullFirstName : $('#fullFirstNameSimplyRegistration').val(), 
-                  fullLastName : $('#fullLastNameSimplyRegistration').val(), 
+                  fullLastName : $('#fullLastNameSimplyRegistration').val()
                 }
               }
             }); 
@@ -157,65 +157,14 @@ Template.profile.events({
  
 Template.privateMessagePanel.events({
   'click button#send' : function () {
-    if ($('#textarea').val()) {
-      var options = { message: $("#textarea").val(),
-                     to_id : this._id
-                    };
-      if (Meteor.user()) {
-        options.from_id = Meteor.userId();
-        if(!(Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName))) {
-          if ($('#fullFirstNameSimplyRegistration').val() || $('#fullLastNameSimplyRegistration').val()) {
-            Meteor.users.update(Meteor.userId(), {
-              $set: {
-                profile: {
-                  fullFirstName : $('#fullFirstNameSimplyRegistration').val(), 
-                  fullLastName : $('#fullLastNameSimplyRegistration').val(), 
-                }
-              }
-            });
-          }  
-          else {
-            return
-          }
-        }
-      }
-      Messages.insert(options);
-      $('#textarea').val('');      
-    };
-    /*
-    if (!$('#textarea').val()) {}
- 
-    else { 
-       var options = { message: $("#textarea").val(),
-                       to_id : this._id
-                       };
-      if (Meteor.user()) {
-        options.from_id = Meteor.userId();
-        if(Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName)){
-          if ($('#fullFirstNameSimplyRegistration').val() || $('#fullLastNameSimplyRegistration').val()) {
-            Meteor.users.update(Meteor.userId(), {
-              $set: {
-                profile: {
-                  fullFirstName : $('#fullFirstNameSimplyRegistration').val(), 
-                  fullLastName : $('#fullLastNameSimplyRegistration').val(), 
-                }
-              }
-            });
-            Messages.insert(options);
-            $('#textarea').val(''); 
-          }
-        }
-        else {
-          Messages.insert(options);
-          $('#textarea').val(''); 
-        }
-      }
-      else {
-        options.username = $('#firstName').val();
-        Messages.insert(options);
-        $('#textarea').val(''); 
-      }
-    } */         
+    if (!$('#textarea').val()) return;
+    var options = { message: $("#textarea").val(), to_id : this._id };
+    if (Meteor.user()) {
+      options.from_id = Meteor.userId();
+      Users.updateName(Meteor.user(), { first: $('#fullFirstNameSimplyRegistration').val(), last: $('#fullLastNameSimplyRegistration').val()});
+    }
+    Messages.insert(options);
+    $('#textarea').val('');
   }
 });
 
@@ -251,7 +200,7 @@ Template.postJob.events({
               $set: {
                 profile: {
                   fullFirstName : $('#fullFirstNameSimplyRegistration').val(), 
-                  fullLastName : $('#fullLastNameSimplyRegistration').val(), 
+                  fullLastName : $('#fullLastNameSimplyRegistration').val()
                 }
               }
             }); 
