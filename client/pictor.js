@@ -39,7 +39,6 @@ Handlebars.registerHelper('fullName', function(person) {
 
 Handlebars.registerHelper('checkName', function() {
   if (Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName)) return true;
-  return false;
 });
 
 /*Template.myMessages.users= function () {
@@ -158,6 +157,32 @@ Template.profile.events({
  
 Template.privateMessagePanel.events({
   'click button#send' : function () {
+    if ($('#textarea').val()) {
+      var options = { message: $("#textarea").val(),
+                     to_id : this._id
+                    };
+      if (Meteor.user()) {
+        options.from_id = Meteor.userId();
+        if(!(Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName))) {
+          if ($('#fullFirstNameSimplyRegistration').val() || $('#fullLastNameSimplyRegistration').val()) {
+            Meteor.users.update(Meteor.userId(), {
+              $set: {
+                profile: {
+                  fullFirstName : $('#fullFirstNameSimplyRegistration').val(), 
+                  fullLastName : $('#fullLastNameSimplyRegistration').val(), 
+                }
+              }
+            });
+          }  
+          else {
+            return
+          }
+        }
+      }
+      Messages.insert(options);
+      $('#textarea').val('');      
+    };
+    /*
     if (!$('#textarea').val()) {}
  
     else { 
@@ -167,8 +192,7 @@ Template.privateMessagePanel.events({
       if (Meteor.user()) {
         options.from_id = Meteor.userId();
         if(Meteor.user().profile && (Meteor.user().profile.fullFirstName || Meteor.user().profile.fullLastName)){
-          if (!$('#fullFirstNameSimplyRegistration').val() || !$('#fullLastNameSimplyRegistration').val()) {}
-          else {
+          if ($('#fullFirstNameSimplyRegistration').val() || $('#fullLastNameSimplyRegistration').val()) {
             Meteor.users.update(Meteor.userId(), {
               $set: {
                 profile: {
@@ -179,7 +203,7 @@ Template.privateMessagePanel.events({
             });
             Messages.insert(options);
             $('#textarea').val(''); 
-          } 
+          }
         }
         else {
           Messages.insert(options);
@@ -191,7 +215,7 @@ Template.privateMessagePanel.events({
         Messages.insert(options);
         $('#textarea').val(''); 
       }
-    }          
+    } */         
   }
 });
 
