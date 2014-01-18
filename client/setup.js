@@ -21,7 +21,7 @@ Router.map(function() {               // карта сайта
 });
 
 Router.configure({             // обьявление главного шаблона
-  layoutTemplate: 'layout'
+  layout: 'layout'
 });
 
 Accounts.ui.config({
